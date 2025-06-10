@@ -67,22 +67,37 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      overflow-x: auto;
-      overflow-y: hidden;
-    }
-    .gallery {
-      display: flex;
-      flex-direction: row;
+      overflow: hidden;
       gap: 2rem;
-      padding: 2rem;
     }
-    .gallery img {
-      width: 400px;
-      height: 300px;
-      object-fit: cover;
+    .gallery-image {
+      width: 600px;
+      height: 450px;
+      object-fit: contain;
       border-radius: 16px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.18);
       background: #222;
+      max-width: 80vw;
+      max-height: 80vh;
+      transition: opacity 0.2s;
+    }
+    .gallery-arrow {
+      font-size: 2.5rem;
+      background: rgba(255,255,255,0.8);
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      transition: background 0.2s;
+    }
+    .gallery-arrow:hover {
+      background: #eee;
     }
   </style>
 </head>
@@ -101,13 +116,9 @@
     <a href="about.html">ABOUT</a>
   </div>
   <div class="gallery-container">
-    <div class="gallery">
-      <img src="https://placehold.co/400x300?text=1" alt="Gallery 1" />
-      <img src="https://placehold.co/400x300?text=2" alt="Gallery 2" />
-      <img src="https://placehold.co/400x300?text=3" alt="Gallery 3" />
-      <img src="https://placehold.co/400x300?text=4" alt="Gallery 4" />
-      <img src="https://placehold.co/400x300?text=5" alt="Gallery 5" />
-    </div>
+    <button class="gallery-arrow" id="gallery-prev" aria-label="Previous image">&#8592;</button>
+    <img id="gallery-image" class="gallery-image" src="images/PROLOGUE/1.jpg" alt="Prologue Image" />
+    <button class="gallery-arrow" id="gallery-next" aria-label="Next image">&#8594;</button>
   </div>
   <script>
     const hamburger = document.getElementById('hamburger');
@@ -125,6 +136,43 @@
         menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
       }
     });
+    // Gallery logic
+    const prologueImages = [
+      'images/PROLOGUE/1.jpg',
+      'images/PROLOGUE/2.jpg',
+      'images/PROLOGUE/3.png',
+      'images/PROLOGUE/4.jpg',
+      'images/PROLOGUE/5.jpg',
+      'images/PROLOGUE/6.jpg',
+      'images/PROLOGUE/7.jpg',
+      'images/PROLOGUE/8.jpg',
+    ];
+    let currentIndex = 0;
+    const galleryImage = document.getElementById('gallery-image');
+    const prevBtn = document.getElementById('gallery-prev');
+    const nextBtn = document.getElementById('gallery-next');
+    function updateGallery() {
+      galleryImage.style.opacity = 0;
+      setTimeout(() => {
+        galleryImage.src = prologueImages[currentIndex];
+        galleryImage.style.opacity = 1;
+      }, 150);
+      prevBtn.disabled = currentIndex === 0;
+      nextBtn.disabled = currentIndex === prologueImages.length - 1;
+    }
+    prevBtn.addEventListener('click', () => {
+      if (currentIndex > 0) {
+        currentIndex--;
+        updateGallery();
+      }
+    });
+    nextBtn.addEventListener('click', () => {
+      if (currentIndex < prologueImages.length - 1) {
+        currentIndex++;
+        updateGallery();
+      }
+    });
+    updateGallery();
   </script>
 </body>
 </html> 
