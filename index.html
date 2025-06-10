@@ -185,41 +185,54 @@
       hideUnmute();
     });
 
-    // Subpage navigation
+    // Menu and navigation logic
+    const hamburger = document.getElementById('hamburger');
+    const menu = document.getElementById('menu');
     const subpages = document.querySelectorAll('.subpage');
+
+    // Function to show a specific page
+    function showPage(pageId) {
+      subpages.forEach(sp => sp.classList.remove('active'));
+      if (pageId === 'home') {
+        video.style.display = 'block';
+      } else {
+        video.style.display = 'none';
+        document.getElementById(pageId).classList.add('active');
+      }
+    }
+
+    // Handle menu clicks
     document.querySelectorAll('.menu a').forEach(link => {
       link.addEventListener('click', (e) => {
         e.preventDefault();
         const page = link.getAttribute('data-page');
-        subpages.forEach(sp => sp.classList.remove('active'));
-        if (page !== 'home') {
-          document.getElementById(page).classList.add('active');
-        }
+        showPage(page);
         menu.style.display = 'none';
       });
     });
 
-    const hamburger = document.getElementById('hamburger');
-    const menu = document.getElementById('menu');
+    // Hamburger menu toggle
     hamburger.addEventListener('click', (e) => {
       e.stopPropagation();
       menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
     });
+
+    // Close menu when clicking outside
     document.addEventListener('click', (e) => {
       if (!hamburger.contains(e.target) && !menu.contains(e.target)) {
         menu.style.display = 'none';
       }
     });
+
+    // Handle keyboard navigation
     hamburger.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
         menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
       }
     });
-    document.querySelectorAll('.menu a').forEach(link => {
-      link.addEventListener('click', () => {
-        menu.style.display = 'none';
-      });
-    });
+
+    // Initialize to home page
+    showPage('home');
   </script>
 </body>
 </html> 
