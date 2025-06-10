@@ -94,7 +94,8 @@
       <a href="#about">ABOUT</a>
     </div>
   </nav>
-  <video id="home-video" src="video/gardenerintro.mp4" autoplay loop muted playsinline style="position:fixed;top:0;left:0;width:100vw;height:100vh;object-fit:cover;z-index:0;" unmuted></video>
+  <video id="home-video" src="video/gardenerintro.mp4" autoplay loop muted playsinline style="position:fixed;top:0;left:0;width:100vw;height:100vh;object-fit:cover;z-index:0;"></video>
+  <button id="unmute-btn" style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2;padding:1.2em 2em;font-size:1.2em;background:rgba(0,0,0,0.7);color:#fff;border:none;border-radius:8px;cursor:pointer;display:none;">🔊 Unmute</button>
   <script>
     const hamburger = document.getElementById('hamburger');
     const menu = document.getElementById('menu');
@@ -111,11 +112,31 @@
         menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
       }
     });
-    // Unmute video on load for sound to play automatically
+
+    // Video autoplay/unmute logic
     const video = document.getElementById('home-video');
-    video.muted = false;
-    video.volume = 1.0;
-    video.play();
+    const unmuteBtn = document.getElementById('unmute-btn');
+    // Show unmute button if video is muted
+    function showUnmute() {
+      unmuteBtn.style.display = 'block';
+    }
+    function hideUnmute() {
+      unmuteBtn.style.display = 'none';
+    }
+    // Try to autoplay muted
+    video.muted = true;
+    video.play().catch(() => {
+      // If autoplay fails, show unmute button
+      showUnmute();
+    });
+    // Always show unmute button for user to enable sound
+    showUnmute();
+    unmuteBtn.addEventListener('click', () => {
+      video.muted = false;
+      video.volume = 1.0;
+      video.play();
+      hideUnmute();
+    });
   </script>
 </body>
 </html> 
