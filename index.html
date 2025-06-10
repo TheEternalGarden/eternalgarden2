@@ -11,29 +11,17 @@
       background: #fff;
       font-family: Arial, sans-serif;
     }
-    .navbar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      background: #fff;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.03);
-      z-index: 1000;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0.5rem 1rem;
-    }
     .menu {
       display: none;
       flex-direction: column;
       position: absolute;
-      top: 60px;
-      right: 1rem;
-      background: #fff;
+      top: 50px;
+      right: 1.5rem;
+      background: rgba(255,255,255,0.95);
       box-shadow: 0 2px 8px rgba(0,0,0,0.08);
       border-radius: 8px;
       min-width: 150px;
+      z-index: 10;
     }
     .menu a {
       padding: 1rem;
@@ -55,6 +43,10 @@
       flex-direction: column;
       justify-content: space-between;
       cursor: pointer;
+      position: absolute;
+      top: 1.5rem;
+      right: 2rem;
+      z-index: 20;
     }
     .bar {
       height: 4px;
@@ -76,24 +68,41 @@
         display: none;
       }
     }
+    .subpage {
+      display: none;
+      position: absolute;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      z-index: 5;
+      color: #fff;
+      background: rgba(0,0,0,0.5);
+      font-size: 2rem;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+    .subpage.active {
+      display: flex;
+    }
   </style>
 </head>
 <body>
-  <nav class="navbar">
-    <div style="font-weight:bold;">Eternal Garden</div>
-    <div class="hamburger" id="hamburger" aria-label="Open menu" tabindex="0">
-      <div class="bar"></div>
-      <div class="bar"></div>
-      <div class="bar"></div>
-    </div>
-    <div class="menu" id="menu">
-      <a href="#home">HOME</a>
-      <a href="#story">STORY</a>
-      <a href="#zero">ZERO</a>
-      <a href="#soundtrack">SOUNDTRACK</a>
-      <a href="#about">ABOUT</a>
-    </div>
-  </nav>
+  <div class="hamburger" id="hamburger" aria-label="Open menu" tabindex="0">
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+  </div>
+  <div class="menu" id="menu">
+    <a href="#home" data-page="home">HOME</a>
+    <a href="#story" data-page="story">STORY</a>
+    <a href="#zero" data-page="zero">ZERO</a>
+    <a href="#soundtrack" data-page="soundtrack">SOUNDTRACK</a>
+    <a href="#about" data-page="about">ABOUT</a>
+  </div>
+  <div id="home" class="subpage active">Welcome to Eternal Garden</div>
+  <div id="story" class="subpage">Story content goes here.</div>
+  <div id="zero" class="subpage">Zero content goes here.</div>
+  <div id="soundtrack" class="subpage">Soundtrack content goes here.</div>
+  <div id="about" class="subpage">About content goes here.</div>
   <video id="home-video" src="video/gardenerintro.mp4" autoplay loop muted playsinline style="position:fixed;top:0;left:0;width:100vw;height:100vh;object-fit:cover;z-index:0;"></video>
   <button id="unmute-btn" style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2;padding:1.2em 2em;font-size:1.2em;background:rgba(0,0,0,0.7);color:#fff;border:none;border-radius:8px;cursor:pointer;display:none;">🔊 Unmute</button>
   <script>
@@ -136,6 +145,18 @@
       video.volume = 1.0;
       video.play();
       hideUnmute();
+    });
+
+    // Subpage navigation
+    const subpages = document.querySelectorAll('.subpage');
+    document.querySelectorAll('.menu a').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const page = link.getAttribute('data-page');
+        subpages.forEach(sp => sp.classList.remove('active'));
+        document.getElementById(page).classList.add('active');
+        menu.style.display = 'none';
+      });
     });
   </script>
 </body>
