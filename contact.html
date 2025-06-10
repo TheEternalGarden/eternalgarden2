@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ABOUT | Eternal Garden</title>
+  <title>CONTACT | Eternal Garden</title>
   <style>
     body {
       margin: 0;
@@ -46,7 +46,7 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.08);
       border-radius: 8px;
       min-width: 150px;
-      z-index: 10;
+      z-index: 1000;
     }
     .menu a {
       padding: 1rem;
@@ -81,7 +81,8 @@
   <script>
     const hamburger = document.getElementById('hamburger');
     const menu = document.getElementById('menu');
-    hamburger.addEventListener('click', () => {
+    hamburger.addEventListener('click', (e) => {
+      e.stopPropagation();
       menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
     });
     document.addEventListener('click', (e) => {
