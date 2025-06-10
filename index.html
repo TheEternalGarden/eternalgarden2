@@ -94,6 +94,7 @@
       <a href="#about">ABOUT</a>
     </div>
   </nav>
+  <video id="home-video" src="video/gardenerintro.mp4" autoplay loop muted playsinline style="position:fixed;top:0;left:0;width:100vw;height:100vh;object-fit:cover;z-index:0;" unmuted></video>
   <script>
     const hamburger = document.getElementById('hamburger');
     const menu = document.getElementById('menu');
@@ -110,6 +111,11 @@
         menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
       }
     });
+    // Unmute video on load for sound to play automatically
+    const video = document.getElementById('home-video');
+    video.muted = false;
+    video.volume = 1.0;
+    video.play();
   </script>
 </body>
 </html> 
