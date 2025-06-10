@@ -67,37 +67,59 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      overflow: hidden;
-      gap: 2rem;
+      position: relative;
+      background: #fff;
     }
     .gallery-image {
-      width: 600px;
-      height: 450px;
+      max-width: 90vw;
+      max-height: 90vh;
       object-fit: contain;
-      border-radius: 16px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.18);
-      background: #222;
-      max-width: 80vw;
-      max-height: 80vh;
-      transition: opacity 0.2s;
+      transition: opacity 0.3s ease;
     }
     .gallery-arrow {
-      font-size: 2.5rem;
-      background: rgba(255,255,255,0.8);
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 2rem;
+      background: rgba(255,255,255,0.9);
       border: none;
       border-radius: 50%;
-      width: 60px;
-      height: 60px;
+      width: 50px;
+      height: 50px;
       cursor: pointer;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
       display: flex;
       align-items: center;
       justify-content: center;
       z-index: 10;
-      transition: background 0.2s;
+      transition: all 0.2s ease;
+      opacity: 0.7;
     }
     .gallery-arrow:hover {
-      background: #eee;
+      opacity: 1;
+      background: #fff;
+    }
+    .gallery-arrow:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+    #gallery-prev {
+      left: 2rem;
+    }
+    #gallery-next {
+      right: 2rem;
+    }
+    .gallery-counter {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255,255,255,0.9);
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      color: #222;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
   </style>
 </head>
@@ -118,6 +140,7 @@
     <button class="gallery-arrow" id="gallery-prev" aria-label="Previous image">&#8592;</button>
     <img id="gallery-image" class="gallery-image" src="images/PROLOGUE/1.jpg" alt="Prologue Image" />
     <button class="gallery-arrow" id="gallery-next" aria-label="Next image">&#8594;</button>
+    <div class="gallery-counter" id="gallery-counter">1 / 8</div>
   </div>
   <script>
     const hamburger = document.getElementById('hamburger');
@@ -141,6 +164,7 @@
         menu.style.display = 'none';
       });
     });
+
     // Gallery logic
     const prologueImages = [
       'images/PROLOGUE/1.jpg',
@@ -156,27 +180,45 @@
     const galleryImage = document.getElementById('gallery-image');
     const prevBtn = document.getElementById('gallery-prev');
     const nextBtn = document.getElementById('gallery-next');
+    const counter = document.getElementById('gallery-counter');
+
     function updateGallery() {
       galleryImage.style.opacity = 0;
       setTimeout(() => {
         galleryImage.src = prologueImages[currentIndex];
         galleryImage.style.opacity = 1;
+        counter.textContent = `${currentIndex + 1} / ${prologueImages.length}`;
       }, 150);
       prevBtn.disabled = currentIndex === 0;
       nextBtn.disabled = currentIndex === prologueImages.length - 1;
     }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft' && currentIndex > 0) {
+        currentIndex--;
+        updateGallery();
+      } else if (e.key === 'ArrowRight' && currentIndex < prologueImages.length - 1) {
+        currentIndex++;
+        updateGallery();
+      }
+    });
+
     prevBtn.addEventListener('click', () => {
       if (currentIndex > 0) {
         currentIndex--;
         updateGallery();
       }
     });
+
     nextBtn.addEventListener('click', () => {
       if (currentIndex < prologueImages.length - 1) {
         currentIndex++;
         updateGallery();
       }
     });
+
+    // Initialize gallery
     updateGallery();
   </script>
 </body>
