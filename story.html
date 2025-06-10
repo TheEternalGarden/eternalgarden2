@@ -5,11 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>STORY | Eternal Garden</title>
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
     body {
       margin: 0;
       padding: 0;
       background: #fff;
       font-family: Arial, sans-serif;
+      overflow: hidden;
     }
     .hamburger {
       width: 40px;
@@ -69,12 +75,14 @@
       align-items: center;
       position: relative;
       background: #fff;
+      overflow: hidden;
     }
     .gallery-image {
       max-width: 90vw;
       max-height: 90vh;
       object-fit: contain;
       transition: opacity 0.3s ease;
+      display: block;
     }
     .gallery-arrow {
       position: absolute;
@@ -138,7 +146,7 @@
   </div>
   <div class="gallery-container">
     <button class="gallery-arrow" id="gallery-prev" aria-label="Previous image">&#8592;</button>
-    <img id="gallery-image" class="gallery-image" src="images/PROLOGUE/1.jpg" alt="Prologue Image" />
+    <img id="gallery-image" class="gallery-image" src="/images/PROLOGUE/1.jpg" alt="Prologue Image" />
     <button class="gallery-arrow" id="gallery-next" aria-label="Next image">&#8594;</button>
     <div class="gallery-counter" id="gallery-counter">1 / 8</div>
   </div>
@@ -167,14 +175,14 @@
 
     // Gallery logic
     const prologueImages = [
-      'images/PROLOGUE/1.jpg',
-      'images/PROLOGUE/2.jpg',
-      'images/PROLOGUE/3.png',
-      'images/PROLOGUE/4.jpg',
-      'images/PROLOGUE/5.jpg',
-      'images/PROLOGUE/6.jpg',
-      'images/PROLOGUE/7.jpg',
-      'images/PROLOGUE/8.jpg',
+      '/images/PROLOGUE/1.jpg',
+      '/images/PROLOGUE/2.jpg',
+      '/images/PROLOGUE/3.png',
+      '/images/PROLOGUE/4.jpg',
+      '/images/PROLOGUE/5.jpg',
+      '/images/PROLOGUE/6.jpg',
+      '/images/PROLOGUE/7.jpg',
+      '/images/PROLOGUE/8.jpg',
     ];
     let currentIndex = 0;
     const galleryImage = document.getElementById('gallery-image');
