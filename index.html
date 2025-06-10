@@ -46,7 +46,7 @@
       position: absolute;
       top: 1.5rem;
       right: 2rem;
-      z-index: 20;
+      z-index: 100;
     }
     .bar {
       height: 4px;
@@ -70,9 +70,9 @@
     }
     .subpage {
       display: none;
-      position: absolute;
+      position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
-      z-index: 5;
+      z-index: 10;
       color: #fff;
       background: rgba(0,0,0,0.5);
       font-size: 2rem;
@@ -82,6 +82,24 @@
     }
     .subpage.active {
       display: flex;
+    }
+    #home.subpage {
+      display: none !important;
+      background: none;
+    }
+    #unmute-btn {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 101;
+      padding: 1.2em 2em;
+      font-size: 1.2em;
+      background: rgba(0,0,0,0.7);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      display: none;
     }
   </style>
 </head>
@@ -154,7 +172,9 @@
         e.preventDefault();
         const page = link.getAttribute('data-page');
         subpages.forEach(sp => sp.classList.remove('active'));
-        document.getElementById(page).classList.add('active');
+        if (page !== 'home') {
+          document.getElementById(page).classList.add('active');
+        }
         menu.style.display = 'none';
       });
     });
