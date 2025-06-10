@@ -124,7 +124,8 @@
   <script>
     const hamburger = document.getElementById('hamburger');
     const menu = document.getElementById('menu');
-    hamburger.addEventListener('click', () => {
+    hamburger.addEventListener('click', (e) => {
+      e.stopPropagation();
       menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
     });
     document.addEventListener('click', (e) => {
@@ -136,6 +137,11 @@
       if (e.key === 'Enter' || e.key === ' ') {
         menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
       }
+    });
+    document.querySelectorAll('.menu a').forEach(link => {
+      link.addEventListener('click', () => {
+        menu.style.display = 'none';
+      });
     });
     // Gallery logic
     const prologueImages = [
